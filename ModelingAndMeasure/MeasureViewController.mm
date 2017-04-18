@@ -9,6 +9,11 @@
 #import "MeasureViewController.h"
 #import "VideoProcessor.h"
 #import "ShowPictureViewController.h"
+#import "UserDefaultsSerializer.h"
+#import "AccelerationHeightMeasuring.h"
+
+static NSString *const kStartMeasureMessage = @"To start measure: Place bottom point in the center of the screen and long tap button.";
+static NSString *const kEndMeasureMessage = @"Place top point in the center of the screen and just tap button. ";
 
 @interface MeasureViewController ()
 
@@ -18,7 +23,10 @@
 @property (weak, nonatomic) IBOutlet UIView *heightCostomizationContainer;
 @property (strong, nonatomic) UISlider *sliderControl;
 @property (weak, nonatomic) IBOutlet UILabel *heightLabel;
-@property (strong, nonatomic) NSTimer *takePictureTimer;
+@property (weak, nonatomic) IBOutlet UIButton *takePictureButton;
+@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+
+@property (strong, nonatomic) AccelerationHeightMeasuring *accelerationMeasuring;
 
 @end
 
@@ -33,11 +41,14 @@
     self.sliderControl.tintColor = [UIColor whiteColor];
     self.sliderControl.maximumValue = 200;
     self.sliderControl.minimumValue = 10;
+    self.sliderControl.value = [[UserDefaultsSerializer getObjectForKey:kHeightKey] floatValue];
+    self.heightLabel.text = [NSString stringWithFormat:@"%d", (int)self.sliderControl.value];
     [self.heightCostomizationContainer addSubview:self.sliderControl];
     [self.sliderControl addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
 }
 
 - (IBAction)sliderValueChanged:(UISlider *)sender {
+    [UserDefaultsSerializer saveObject:@(self.sliderControl.value) forKey:kHeightKey];
     self.heightLabel.text = [NSString stringWithFormat:@"%d", (int)self.sliderControl.value];
 }
 
@@ -45,6 +56,9 @@
     [super viewDidLoad];
     self.videoProcessor = [[VideoProcessor alloc] initWithCameraView:self.cameraImageView
                                                                scale:2.0];
+    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longTap:)];
+    [self.takePictureButton addGestureRecognizer:longPress];
+    self.statusLabel.text = kStartMeasureMessage;
     [self initSliderControl];
 }
 
@@ -68,8 +82,13 @@
     [self.videoProcessor stopCapture];
 }
 
+- (BOOL)isManualMode {
+    return _switchModeSegmentedControl.selectedSegmentIndex == 0;
+}
+
 - (IBAction)onSwitchMode:(id)sender {
-    BOOL isAutomatic = _switchModeSegmentedControl.selectedSegmentIndex > 0;
+    BOOL isAutomatic = ![self isManualMode];
+    self.statusLabel.text = isAutomatic ? nil : kStartMeasureMessage;
     self.videoProcessor.modelingEnabled = isAutomatic;
     self.heightCostomizationContainer.hidden = isAutomatic;
 }
@@ -82,24 +101,22 @@
     }
 }
 
-- (IBAction)onTouchDownTakePicture:(id)sender {
-    self.takePictureTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
-                                     target:self
-                                   selector:@selector(onTouchUpOutsideTakePicture:)
-                                   userInfo:nil
-                                    repeats:NO];
-}
-
 - (IBAction)onTouchUpInsideTakePicture:(id)sender {
-    if (self.takePictureTimer && [self.videoProcessor captureProcessedImage]) {
+    if ([self isManualMode] && self.accelerationMeasuring) {
+        [self.accelerationMeasuring endMeasure];
+        self.statusLabel.text = [NSString stringWithFormat:@"%.2f", self.accelerationMeasuring.distance];
+        self.accelerationMeasuring = nil;
+    } else if ([self.videoProcessor captureProcessedImage]) {
         [self performSegueWithIdentifier:@"showPictureSegue" sender:self];
-    } else {
-
     }
 }
 
-- (IBAction)onTouchUpOutsideTakePicture:(id)sender {
-    self.takePictureTimer = nil;
+- (void)longTap:(UIGestureRecognizer*)gestureRecognizer {
+    if([self isManualMode] && !self.accelerationMeasuring) {
+        self.accelerationMeasuring = [[AccelerationHeightMeasuring alloc] initWithHeight:self.sliderControl.value];
+        [self.accelerationMeasuring startMeasure];
+        self.statusLabel.text = kEndMeasureMessage;
+    }
 }
 
 @end

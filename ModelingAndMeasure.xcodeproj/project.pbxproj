@@ -25,6 +25,9 @@
 		303AB7441EA027E50089DCEA /* H1to3p.xml in Resources */ = {isa = PBXBuildFile; fileRef = 303AB7431EA027E50089DCEA /* H1to3p.xml */; };
 		303AB74A1EA0B8740089DCEA /* VideoProcessor.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303AB7491EA0B8740089DCEA /* VideoProcessor.mm */; };
 		303AB7551EA12C810089DCEA /* ShowPictureViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 303AB7541EA12C810089DCEA /* ShowPictureViewController.m */; };
+		303AB7591EA627B00089DCEA /* UserDefaultsSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 303AB7581EA627B00089DCEA /* UserDefaultsSerializer.m */; };
+		303AB7601EA670DC0089DCEA /* AccelerometerTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 303AB75F1EA670DC0089DCEA /* AccelerometerTracker.m */; };
+		303AB7641EA695BA0089DCEA /* AccelerationHeightMeasuring.m in Sources */ = {isa = PBXBuildFile; fileRef = 303AB7631EA695BA0089DCEA /* AccelerationHeightMeasuring.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +58,13 @@
 		303AB7491EA0B8740089DCEA /* VideoProcessor.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VideoProcessor.mm; sourceTree = "<group>"; };
 		303AB7531EA12C810089DCEA /* ShowPictureViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShowPictureViewController.h; sourceTree = "<group>"; };
 		303AB7541EA12C810089DCEA /* ShowPictureViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShowPictureViewController.m; sourceTree = "<group>"; };
+		303AB7571EA627B00089DCEA /* UserDefaultsSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserDefaultsSerializer.h; sourceTree = "<group>"; };
+		303AB7581EA627B00089DCEA /* UserDefaultsSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserDefaultsSerializer.m; sourceTree = "<group>"; };
+		303AB75E1EA670DC0089DCEA /* AccelerometerTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelerometerTracker.h; sourceTree = "<group>"; };
+		303AB75F1EA670DC0089DCEA /* AccelerometerTracker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccelerometerTracker.m; sourceTree = "<group>"; };
+		303AB7621EA695BA0089DCEA /* AccelerationHeightMeasuring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelerationHeightMeasuring.h; sourceTree = "<group>"; };
+		303AB7631EA695BA0089DCEA /* AccelerationHeightMeasuring.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccelerationHeightMeasuring.m; sourceTree = "<group>"; };
+		303AB7651EA69C5A0089DCEA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +88,7 @@
 		254AA86D1CAEEE51B5EEF528 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				303AB7651EA69C5A0089DCEA /* AudioToolbox.framework */,
 				303AB73F1E9F4FAE0089DCEA /* CoreMedia.framework */,
 				303AB73D1E9F4F8E0089DCEA /* QuartzCore.framework */,
 				303AB73B1E9F4F7F0089DCEA /* CoreGraphics.framework */,
@@ -109,6 +120,8 @@
 		303AB7121E9EC9900089DCEA /* ModelingAndMeasure */ = {
 			isa = PBXGroup;
 			children = (
+				303AB7611EA691850089DCEA /* ManualMeasuring */,
+				303AB7561EA627920089DCEA /* Utils */,
 				303AB72E1E9ECB740089DCEA /* Categories */,
 				303AB72A1E9ECA4F0089DCEA /* OpenCVwrappers */,
 				303AB7521EA12C4D0089DCEA /* ViewControllers */,
@@ -162,6 +175,26 @@
 				303AB7541EA12C810089DCEA /* ShowPictureViewController.m */,
 			);
 			name = ViewControllers;
+			sourceTree = "<group>";
+		};
+		303AB7561EA627920089DCEA /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				303AB7571EA627B00089DCEA /* UserDefaultsSerializer.h */,
+				303AB7581EA627B00089DCEA /* UserDefaultsSerializer.m */,
+				303AB75E1EA670DC0089DCEA /* AccelerometerTracker.h */,
+				303AB75F1EA670DC0089DCEA /* AccelerometerTracker.m */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		303AB7611EA691850089DCEA /* ManualMeasuring */ = {
+			isa = PBXGroup;
+			children = (
+				303AB7621EA695BA0089DCEA /* AccelerationHeightMeasuring.h */,
+				303AB7631EA695BA0089DCEA /* AccelerationHeightMeasuring.m */,
+			);
+			name = ManualMeasuring;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -239,8 +272,11 @@
 			files = (
 				303AB71B1E9EC9900089DCEA /* MeasureViewController.mm in Sources */,
 				303AB74A1EA0B8740089DCEA /* VideoProcessor.mm in Sources */,
+				303AB7601EA670DC0089DCEA /* AccelerometerTracker.m in Sources */,
 				303AB7181E9EC9900089DCEA /* AppDelegate.m in Sources */,
 				303AB72D1E9ECADC0089DCEA /* SpecialPointsDetector.mm in Sources */,
+				303AB7641EA695BA0089DCEA /* AccelerationHeightMeasuring.m in Sources */,
+				303AB7591EA627B00089DCEA /* UserDefaultsSerializer.m in Sources */,
 				303AB7151E9EC9900089DCEA /* main.m in Sources */,
 				303AB7551EA12C810089DCEA /* ShowPictureViewController.m in Sources */,
 				303AB7311E9ECB9F0089DCEA /* UIImage+OpenCV.mm in Sources */,

@@ -8,11 +8,13 @@
 
 #import "VideoProcessor.h"
 #import "SpecialPointsDetector.h"
+#import <AVFoundation/AVFoundation.h>
 
 @interface VideoProcessor() {
     cv::Mat prevImage;
 }
 
+@property (nonatomic, strong) AVCaptureDevice *inputDevice;
 @property (nonatomic, assign) CGFloat scale;
 @property (nonatomic, strong) SpecialPointsDetector *pointsDetector;
 @property (nonatomic, assign) NSInteger maxIter;
@@ -40,6 +42,29 @@
     return self;
 }
 
+- (AVCaptureDevice *)inputDevice {
+    AVCaptureDeviceInput *captureInput = [self.videoCamera.captureSession.inputs firstObject];
+    return captureInput.device;
+}
+
+- (CameraCalibrationModel *)computeCameraCalibration {
+    AVCaptureDeviceFormat *format = self.inputDevice.activeFormat;
+    CMFormatDescriptionRef fDesc = format.formatDescription;
+
+    CGSize dim = CMVideoFormatDescriptionGetPresentationDimensions(fDesc, YES, YES);
+
+    CGFloat cx = dim.width / 2.f;
+    CGFloat cy = dim.height / 2.f;
+
+    CGFloat HFOV = format.videoFieldOfView;
+    CGFloat VFOV = (HFOV / cx) * cy;
+
+    CGFloat fx = fabs(dim.width / (2 * tan(HFOV / 180 * M_PI / 2)));
+    CGFloat fy = fabs(dim.height / (2 * tan(VFOV / 180 * M_PI / 2)));
+
+    return [[CameraCalibrationModel alloc] initWithFx:fx fy:fy cx:cx cy:cy];
+}
+
 - (void)startCapture {
     [self.videoCamera start];
 }
@@ -57,16 +82,6 @@
 - (void)processImage:(cv::Mat &)image {
     if (self.modelingEnabled) {
         [self.pointsDetector detectAndDrawPointsOn:image];
-        //    if (prevImage.data != nullptr && _maxIter > 0) {
-        //        cv::Mat img2 = image.clone();
-        //        [self.pointsDetector detectAndDrawPointsOn:image fromImage1:prevImage andImage2:img2];
-        //        _maxIter--;
-        //    }
-        //    if (_maxIter == 0) {
-        //        [self.videoCamera stop];
-        //    }
-        //    prevImage = image;
-
     }
     prevImage = image.clone();
 }

@@ -35,48 +35,6 @@ using namespace cv;
     return self;
 }
 
-- (std::vector<cv::KeyPoint>)detectAndDrawPointsOn:(cv::Mat&)img fromImage1:(cv::Mat&)img1 andImage2:(cv::Mat&)img2 {
-
-    Mat imgA, imgB;
-    cvtColor(img1, imgA, COLOR_BGR2GRAY);
-    cvtColor(img2, imgB, COLOR_BGR2GRAY);
-
-    std::vector<KeyPoint> keypointsA, keypointsB;
-    Mat descriptorsA, descriptorsB;
-    std::vector<DMatch> matches;
-
-    // DETECTION
-    // Any openCV detector such as
-    Ptr<cv::xfeatures2d::SURF> detector = cv::xfeatures2d::SURF::create();
-
-    // DESCRIPTOR
-    // Our proposed FREAK descriptor
-    // (roation invariance, scale invariance, pattern radius corresponding to SMALLEST_KP_SIZE,
-    // number of octaves, optional vector containing the selected pairs)
-    // FREAK extractor(true, true, 22, 4, std::vector<int>());
-    Ptr<xfeatures2d::FREAK> extractor = xfeatures2d::FREAK::create(true, true, 22, 4, std::vector<int>());
-
-    // MATCHER
-    // The standard Hamming distance can be used such as
-    // BruteForceMatcher<Hamming> matcher;
-    // or the proposed cascade of hamming distance using SSSE3
-    Ptr<DescriptorMatcher> matcher = DescriptorMatcher::create("BruteForce-L1");
-
-    // detect
-    detector->detect( imgA, keypointsA );
-    detector->detect( imgB, keypointsB );
-
-    extractor->compute( imgA, keypointsA, descriptorsA );
-    extractor->compute( imgB, keypointsB, descriptorsB );
-
-    // match
-    matcher->match(descriptorsA, descriptorsB, matches);
-
-    // Draw matches
-    drawMatches(imgA, keypointsA, imgB, keypointsB, matches, img);
-    return keypointsB;
-}
-
 - (vector<KeyPoint>)detectAndDrawPointsOn:(Mat&)img {
     Mat gray, smallImg( cvRound (img.rows/_scale), cvRound(img.cols/_scale), CV_8UC1);
 

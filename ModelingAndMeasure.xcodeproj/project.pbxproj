@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		302F19A51EB94BE0009F8BDB /* CameraCalibrationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 302F19A41EB94BE0009F8BDB /* CameraCalibrationModel.m */; };
+		302F19A81EBA44BF009F8BDB /* SpetialPointsMatcher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 302F19A71EBA44BF009F8BDB /* SpetialPointsMatcher.mm */; };
 		303AB7151E9EC9900089DCEA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 303AB7141E9EC9900089DCEA /* main.m */; };
 		303AB7181E9EC9900089DCEA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 303AB7171E9EC9900089DCEA /* AppDelegate.m */; };
 		303AB71B1E9EC9900089DCEA /* MeasureViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303AB71A1E9EC9900089DCEA /* MeasureViewController.mm */; };
@@ -31,6 +33,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		302F19A31EB94BE0009F8BDB /* CameraCalibrationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CameraCalibrationModel.h; sourceTree = "<group>"; };
+		302F19A41EB94BE0009F8BDB /* CameraCalibrationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraCalibrationModel.m; sourceTree = "<group>"; };
+		302F19A61EBA44BF009F8BDB /* SpetialPointsMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpetialPointsMatcher.h; sourceTree = "<group>"; };
+		302F19A71EBA44BF009F8BDB /* SpetialPointsMatcher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SpetialPointsMatcher.mm; sourceTree = "<group>"; };
 		303AB7101E9EC9900089DCEA /* ModelingAndMeasure.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ModelingAndMeasure.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		303AB7141E9EC9900089DCEA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		303AB7161E9EC9900089DCEA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -120,6 +126,7 @@
 		303AB7121E9EC9900089DCEA /* ModelingAndMeasure */ = {
 			isa = PBXGroup;
 			children = (
+				30B96D3C1EB9411B00F4F7A7 /* Camera */,
 				303AB7611EA691850089DCEA /* ManualMeasuring */,
 				303AB7561EA627920089DCEA /* Utils */,
 				303AB72E1E9ECB740089DCEA /* Categories */,
@@ -151,8 +158,8 @@
 			children = (
 				303AB72B1E9ECADC0089DCEA /* SpecialPointsDetector.h */,
 				303AB72C1E9ECADC0089DCEA /* SpecialPointsDetector.mm */,
-				303AB7481EA0B8740089DCEA /* VideoProcessor.h */,
-				303AB7491EA0B8740089DCEA /* VideoProcessor.mm */,
+				302F19A61EBA44BF009F8BDB /* SpetialPointsMatcher.h */,
+				302F19A71EBA44BF009F8BDB /* SpetialPointsMatcher.mm */,
 			);
 			name = OpenCVwrappers;
 			sourceTree = "<group>";
@@ -195,6 +202,17 @@
 				303AB7631EA695BA0089DCEA /* AccelerationHeightMeasuring.m */,
 			);
 			name = ManualMeasuring;
+			sourceTree = "<group>";
+		};
+		30B96D3C1EB9411B00F4F7A7 /* Camera */ = {
+			isa = PBXGroup;
+			children = (
+				303AB7481EA0B8740089DCEA /* VideoProcessor.h */,
+				303AB7491EA0B8740089DCEA /* VideoProcessor.mm */,
+				302F19A31EB94BE0009F8BDB /* CameraCalibrationModel.h */,
+				302F19A41EB94BE0009F8BDB /* CameraCalibrationModel.m */,
+			);
+			name = Camera;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -270,6 +288,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				302F19A81EBA44BF009F8BDB /* SpetialPointsMatcher.mm in Sources */,
 				303AB71B1E9EC9900089DCEA /* MeasureViewController.mm in Sources */,
 				303AB74A1EA0B8740089DCEA /* VideoProcessor.mm in Sources */,
 				303AB7601EA670DC0089DCEA /* AccelerometerTracker.m in Sources */,
@@ -277,6 +296,7 @@
 				303AB72D1E9ECADC0089DCEA /* SpecialPointsDetector.mm in Sources */,
 				303AB7641EA695BA0089DCEA /* AccelerationHeightMeasuring.m in Sources */,
 				303AB7591EA627B00089DCEA /* UserDefaultsSerializer.m in Sources */,
+				302F19A51EB94BE0009F8BDB /* CameraCalibrationModel.m in Sources */,
 				303AB7151E9EC9900089DCEA /* main.m in Sources */,
 				303AB7551EA12C810089DCEA /* ShowPictureViewController.m in Sources */,
 				303AB7311E9ECB9F0089DCEA /* UIImage+OpenCV.mm in Sources */,

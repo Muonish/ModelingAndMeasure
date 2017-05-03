@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 static NSString *const kHeightKey = @"heightValue";
+static NSString *const kCalibrationKey = @"cameraCalibration";
 
 @interface UserDefaultsSerializer : NSObject
 

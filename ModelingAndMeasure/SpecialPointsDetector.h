@@ -16,6 +16,4 @@
 
 - (std::vector<cv::KeyPoint>)detectAndDrawPointsOn:(cv::Mat&)img;
 
-- (std::vector<cv::KeyPoint>)detectAndDrawPointsOn:(cv::Mat&)img fromImage1:(cv::Mat&)img1 andImage2:(cv::Mat&)img2;
-
 @end

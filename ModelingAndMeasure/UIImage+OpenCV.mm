@@ -88,12 +88,12 @@ using namespace cv;
     
     NSLog(@"cols %d rows %d step %zu", cols, rows, gray.step[0]);
     CGContextRef contextRef = CGBitmapContextCreate(gray.data,                 // Pointer to data
-                                                    cols,                       // Width of bitmap
-                                                    rows,                       // Height of bitmap
-                                                    8,                          // Bits per component
+                                                    cols,                      // Width of bitmap
+                                                    rows,                      // Height of bitmap
+                                                    8,                         // Bits per component
                                                     gray.step[0],              // Bytes per row
-                                                    colorSpace,                 // Colorspace
-                                                    kCGBitmapByteOrderDefault); // Bitmap info flags
+                                                    colorSpace,                // Colorspace
+                                                    kCGBitmapByteOrderDefault);// Bitmap info flags
     
     CGContextDrawImage(contextRef, CGRectMake(0, 0, cols, rows), self.CGImage);
     CGContextRelease(contextRef);

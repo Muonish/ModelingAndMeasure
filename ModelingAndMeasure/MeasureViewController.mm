@@ -90,7 +90,6 @@ static NSString *const kEndMeasureMessage = @"Place top point in the center of t
     BOOL isAutomatic = ![self isManualMode];
     self.statusLabel.text = isAutomatic ? nil : kStartMeasureMessage;
     self.videoProcessor.modelingEnabled = isAutomatic;
-    self.heightCostomizationContainer.hidden = isAutomatic;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {

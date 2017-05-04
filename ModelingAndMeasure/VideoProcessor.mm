@@ -8,6 +8,7 @@
 
 #import "VideoProcessor.h"
 #import "SpecialPointsDetector.h"
+#import "StructureFromMotion.h"
 #import <AVFoundation/AVFoundation.h>
 
 @interface VideoProcessor() {
@@ -17,8 +18,8 @@
 @property (nonatomic, strong) AVCaptureDevice *inputDevice;
 @property (nonatomic, assign) CGFloat scale;
 @property (nonatomic, strong) SpecialPointsDetector *pointsDetector;
+@property (nonatomic, strong) StructureFromMotion *sfm;
 @property (nonatomic, assign) NSInteger maxIter;
-
 
 @end
 
@@ -37,6 +38,8 @@
         self.scale = scale;
         self.maxIter = 2;
         self.pointsDetector = [[SpecialPointsDetector alloc] initWithScale:self.scale];
+        self.sfm = [[StructureFromMotion alloc] initWithDownscaleFactor:self.scale];
+        //sfm = sfm::SfM(self.scale);
     }
 
     return self;
@@ -81,7 +84,17 @@
 
 - (void)processImage:(cv::Mat &)image {
     if (self.modelingEnabled) {
-        [self.pointsDetector detectAndDrawPointsOn:image];
+        sfm::Features features = [self.pointsDetector extractFeatures:image];
+        drawKeypoints(image, features.keyPoints, image, cvScalar(255, 255, 255), cv::DrawMatchesFlags::DRAW_OVER_OUTIMG);
+        //[self.pointsDetector detectAndDrawPointsOn:image];
+        if (prevImage.data != nullptr && self.maxIter < 10) {
+            self.maxIter = 0;
+            [self.sfm setImages:{prevImage, image}];
+            [self.sfm run];
+
+            PointCloud cloud = [self.sfm getReconstructionCloud];
+        }
+        self.maxIter++;
     }
     prevImage = image.clone();
 }

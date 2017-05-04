@@ -48,5 +48,12 @@ using namespace cv;
     return kpts;
 }
 
+- (sfm::Features)extractFeatures:(const cv::Mat &)img {
+    sfm::Features features;
+    orb_detector->detectAndCompute(img, noArray(), features.keyPoints, features.descriptors);
+    sfm::KeyPointsToPoints(features.keyPoints, features.points);
+    return features;
+}
+
 @end
 

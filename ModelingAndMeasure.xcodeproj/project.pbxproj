@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		302F19A51EB94BE0009F8BDB /* CameraCalibrationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 302F19A41EB94BE0009F8BDB /* CameraCalibrationModel.m */; };
 		302F19A81EBA44BF009F8BDB /* SpetialPointsMatcher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 302F19A71EBA44BF009F8BDB /* SpetialPointsMatcher.mm */; };
+		302F19B61EBA6335009F8BDB /* SfM2DFeatureUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302F19AC1EBA6335009F8BDB /* SfM2DFeatureUtilities.cpp */; };
+		302F19B71EBA6335009F8BDB /* SfMBundleAdjustmentUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302F19AE1EBA6335009F8BDB /* SfMBundleAdjustmentUtils.cpp */; };
+		302F19B81EBA6335009F8BDB /* SfMCommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302F19B01EBA6335009F8BDB /* SfMCommon.cpp */; };
+		302F19B91EBA6335009F8BDB /* SfMStereoUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302F19B21EBA6335009F8BDB /* SfMStereoUtilities.cpp */; };
+		302F19BD1EBA7E08009F8BDB /* libceres.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 302F19BC1EBA7E08009F8BDB /* libceres.a */; };
+		302F19C01EBA928D009F8BDB /* StructureFromMotion.mm in Sources */ = {isa = PBXBuildFile; fileRef = 302F19BF1EBA928D009F8BDB /* StructureFromMotion.mm */; };
 		303AB7151E9EC9900089DCEA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 303AB7141E9EC9900089DCEA /* main.m */; };
 		303AB7181E9EC9900089DCEA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 303AB7171E9EC9900089DCEA /* AppDelegate.m */; };
 		303AB71B1E9EC9900089DCEA /* MeasureViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 303AB71A1E9EC9900089DCEA /* MeasureViewController.mm */; };
@@ -37,6 +43,17 @@
 		302F19A41EB94BE0009F8BDB /* CameraCalibrationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraCalibrationModel.m; sourceTree = "<group>"; };
 		302F19A61EBA44BF009F8BDB /* SpetialPointsMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpetialPointsMatcher.h; sourceTree = "<group>"; };
 		302F19A71EBA44BF009F8BDB /* SpetialPointsMatcher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SpetialPointsMatcher.mm; sourceTree = "<group>"; };
+		302F19AC1EBA6335009F8BDB /* SfM2DFeatureUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SfM2DFeatureUtilities.cpp; sourceTree = "<group>"; };
+		302F19AD1EBA6335009F8BDB /* SfM2DFeatureUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SfM2DFeatureUtilities.h; sourceTree = "<group>"; };
+		302F19AE1EBA6335009F8BDB /* SfMBundleAdjustmentUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SfMBundleAdjustmentUtils.cpp; sourceTree = "<group>"; };
+		302F19AF1EBA6335009F8BDB /* SfMBundleAdjustmentUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SfMBundleAdjustmentUtils.h; sourceTree = "<group>"; };
+		302F19B01EBA6335009F8BDB /* SfMCommon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SfMCommon.cpp; sourceTree = "<group>"; };
+		302F19B11EBA6335009F8BDB /* SfMCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SfMCommon.h; sourceTree = "<group>"; };
+		302F19B21EBA6335009F8BDB /* SfMStereoUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SfMStereoUtilities.cpp; sourceTree = "<group>"; };
+		302F19B31EBA6335009F8BDB /* SfMStereoUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SfMStereoUtilities.h; sourceTree = "<group>"; };
+		302F19BC1EBA7E08009F8BDB /* libceres.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libceres.a; path = "ThirdParty/ceres-solver-1.12.0/build/lib/libceres.a"; sourceTree = "<group>"; };
+		302F19BE1EBA928D009F8BDB /* StructureFromMotion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StructureFromMotion.h; sourceTree = "<group>"; };
+		302F19BF1EBA928D009F8BDB /* StructureFromMotion.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = StructureFromMotion.mm; sourceTree = "<group>"; };
 		303AB7101E9EC9900089DCEA /* ModelingAndMeasure.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ModelingAndMeasure.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		303AB7141E9EC9900089DCEA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		303AB7161E9EC9900089DCEA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -78,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				302F19BD1EBA7E08009F8BDB /* libceres.a in Frameworks */,
 				303AB7401E9F4FAE0089DCEA /* CoreMedia.framework in Frameworks */,
 				303AB73E1E9F4F8E0089DCEA /* QuartzCore.framework in Frameworks */,
 				303AB73C1E9F4F7F0089DCEA /* CoreGraphics.framework in Frameworks */,
@@ -94,6 +112,7 @@
 		254AA86D1CAEEE51B5EEF528 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				302F19BC1EBA7E08009F8BDB /* libceres.a */,
 				303AB7651EA69C5A0089DCEA /* AudioToolbox.framework */,
 				303AB73F1E9F4FAE0089DCEA /* CoreMedia.framework */,
 				303AB73D1E9F4F8E0089DCEA /* QuartzCore.framework */,
@@ -104,6 +123,23 @@
 				303AB7331E9F4AE70089DCEA /* opencv2.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		302F19A91EBA6318009F8BDB /* SFM */ = {
+			isa = PBXGroup;
+			children = (
+				302F19AC1EBA6335009F8BDB /* SfM2DFeatureUtilities.cpp */,
+				302F19AD1EBA6335009F8BDB /* SfM2DFeatureUtilities.h */,
+				302F19AE1EBA6335009F8BDB /* SfMBundleAdjustmentUtils.cpp */,
+				302F19AF1EBA6335009F8BDB /* SfMBundleAdjustmentUtils.h */,
+				302F19B11EBA6335009F8BDB /* SfMCommon.h */,
+				302F19B01EBA6335009F8BDB /* SfMCommon.cpp */,
+				302F19B21EBA6335009F8BDB /* SfMStereoUtilities.cpp */,
+				302F19B31EBA6335009F8BDB /* SfMStereoUtilities.h */,
+				302F19BE1EBA928D009F8BDB /* StructureFromMotion.h */,
+				302F19BF1EBA928D009F8BDB /* StructureFromMotion.mm */,
+			);
+			name = SFM;
 			sourceTree = "<group>";
 		};
 		303AB7071E9EC9900089DCEA = {
@@ -126,6 +162,7 @@
 		303AB7121E9EC9900089DCEA /* ModelingAndMeasure */ = {
 			isa = PBXGroup;
 			children = (
+				302F19A91EBA6318009F8BDB /* SFM */,
 				30B96D3C1EB9411B00F4F7A7 /* Camera */,
 				303AB7611EA691850089DCEA /* ManualMeasuring */,
 				303AB7561EA627920089DCEA /* Utils */,
@@ -288,8 +325,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				302F19B61EBA6335009F8BDB /* SfM2DFeatureUtilities.cpp in Sources */,
 				302F19A81EBA44BF009F8BDB /* SpetialPointsMatcher.mm in Sources */,
 				303AB71B1E9EC9900089DCEA /* MeasureViewController.mm in Sources */,
+				302F19B71EBA6335009F8BDB /* SfMBundleAdjustmentUtils.cpp in Sources */,
 				303AB74A1EA0B8740089DCEA /* VideoProcessor.mm in Sources */,
 				303AB7601EA670DC0089DCEA /* AccelerometerTracker.m in Sources */,
 				303AB7181E9EC9900089DCEA /* AppDelegate.m in Sources */,
@@ -298,8 +337,11 @@
 				303AB7591EA627B00089DCEA /* UserDefaultsSerializer.m in Sources */,
 				302F19A51EB94BE0009F8BDB /* CameraCalibrationModel.m in Sources */,
 				303AB7151E9EC9900089DCEA /* main.m in Sources */,
+				302F19B91EBA6335009F8BDB /* SfMStereoUtilities.cpp in Sources */,
+				302F19B81EBA6335009F8BDB /* SfMCommon.cpp in Sources */,
 				303AB7551EA12C810089DCEA /* ShowPictureViewController.m in Sources */,
 				303AB7311E9ECB9F0089DCEA /* UIImage+OpenCV.mm in Sources */,
+				302F19C01EBA928D009F8BDB /* StructureFromMotion.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -422,6 +464,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = XJXRP82677;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -429,8 +472,13 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/ModelingAndMeasure-Prefix.pch";
 				INFOPLIST_FILE = ModelingAndMeasure/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ThirdParty/ceres-solver-1.12.0/build/lib",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.muon.ModelingAndMeasure;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/ThirdParty/ceres-solver-1.12.0/include $(PROJECT_DIR)/ThirdParty/ceres-solver-1.12.0/config $(PROJECT_DIR)/ThirdParty/ceres-solver-1.12.0/internal/ceres/miniglog $(PROJECT_DIR)/ThirdParty/eigen";
 			};
 			name = Debug;
 		};
@@ -439,6 +487,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				DEVELOPMENT_TEAM = XJXRP82677;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -446,8 +495,13 @@
 				GCC_PREFIX_HEADER = "$(SRCROOT)/$(PROJECT_NAME)/ModelingAndMeasure-Prefix.pch";
 				INFOPLIST_FILE = ModelingAndMeasure/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/ThirdParty/ceres-solver-1.12.0/build/lib",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.muon.ModelingAndMeasure;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				USER_HEADER_SEARCH_PATHS = "$(PROJECT_DIR)/ThirdParty/ceres-solver-1.12.0/include $(PROJECT_DIR)/ThirdParty/ceres-solver-1.12.0/config $(PROJECT_DIR)/ThirdParty/ceres-solver-1.12.0/internal/ceres/miniglog $(PROJECT_DIR)/ThirdParty/eigen";
 			};
 			name = Release;
 		};

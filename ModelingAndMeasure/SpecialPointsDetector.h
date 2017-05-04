@@ -10,10 +10,13 @@
 #import "UIImage+OpenCV.h"
 #import <opencv2/xfeatures2d.hpp>
 
+#include "SfMCommon.h"
+
 @interface SpecialPointsDetector : NSObject
 
 - (instancetype)initWithScale:(CGFloat)scale;
 
 - (std::vector<cv::KeyPoint>)detectAndDrawPointsOn:(cv::Mat&)img;
+- (sfm::Features)extractFeatures:(const cv::Mat&)img;
 
 @end

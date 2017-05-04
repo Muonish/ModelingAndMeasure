@@ -8,18 +8,21 @@
 
 #import "VideoProcessor.h"
 #import "SpecialPointsDetector.h"
-#import "StructureFromMotion.h"
 #import <AVFoundation/AVFoundation.h>
+#import "CircularArray.h"
+
+static const NSUInteger kMaxIterations = 50;
 
 @interface VideoProcessor() {
     cv::Mat prevImage;
 }
+@property (nonatomic, strong) CvVideoCamera* videoCamera;
 
 @property (nonatomic, strong) AVCaptureDevice *inputDevice;
 @property (nonatomic, assign) CGFloat scale;
 @property (nonatomic, strong) SpecialPointsDetector *pointsDetector;
-@property (nonatomic, strong) StructureFromMotion *sfm;
-@property (nonatomic, assign) NSInteger maxIter;
+@property (nonatomic, assign) NSInteger iteration; // to track every kMaxIterations image
+@property (nonatomic, strong) CircularArray *imagesBuffer;
 
 @end
 
@@ -36,13 +39,16 @@
         self.videoCamera.grayscaleMode = NO;
         self.videoCamera.delegate = self;
         self.scale = scale;
-        self.maxIter = 2;
+        self.iteration = 0;
         self.pointsDetector = [[SpecialPointsDetector alloc] initWithScale:self.scale];
-        self.sfm = [[StructureFromMotion alloc] initWithDownscaleFactor:self.scale];
-        //sfm = sfm::SfM(self.scale);
+        [self initImagesBuffer];
     }
 
     return self;
+}
+
+- (void)initImagesBuffer {
+    self.imagesBuffer = [[CircularArray alloc] initWithSize:10];
 }
 
 - (AVCaptureDevice *)inputDevice {
@@ -80,6 +86,18 @@
     return (prevImage.data != nullptr) ? [UIImage imageFromCVMat:prevImage] : nil;
 }
 
+- (std::vector<cv::Mat>)getBufferedImages {
+    std::vector<cv::Mat> images = [self.imagesBuffer getImages];
+    std::vector<cv::Mat> result;
+    for (int i = 0; i < images.size(); i++) {
+        cv::Mat image = images[i];
+        if (image.data != nullptr) {
+            result.push_back(image);
+        }
+    }
+    return result;
+}
+
 #pragma mark <CvVideoCameraDelegate>
 
 - (void)processImage:(cv::Mat &)image {
@@ -87,14 +105,11 @@
         sfm::Features features = [self.pointsDetector extractFeatures:image];
         drawKeypoints(image, features.keyPoints, image, cvScalar(255, 255, 255), cv::DrawMatchesFlags::DRAW_OVER_OUTIMG);
         //[self.pointsDetector detectAndDrawPointsOn:image];
-        if (prevImage.data != nullptr && self.maxIter < 10) {
-            self.maxIter = 0;
-            [self.sfm setImages:{prevImage, image}];
-            [self.sfm run];
-
-            PointCloud cloud = [self.sfm getReconstructionCloud];
+        if (self.iteration > kMaxIterations) {
+            self.iteration = 0;
+            [self.imagesBuffer addImage:image];
         }
-        self.maxIter++;
+        self.iteration++;
     }
     prevImage = image.clone();
 }

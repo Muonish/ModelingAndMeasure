@@ -10,6 +10,8 @@
 #import "UIImage+OpenCV.h"
 #import <opencv2/xfeatures2d.hpp>
 
+#include "SfMCommon.h"
+
 @interface SpetialPointsMatcher : NSObject
 
 /**
@@ -21,5 +23,5 @@
  * @return matches    Matching between images keypoints.
  */
 + (std::vector<cv::DMatch>)matchKeyPoints1:(std::vector<cv::KeyPoint>)keyPoints1 keyPoints2:(std::vector<cv::KeyPoint>)keyPoints2 image1:(cv::Mat&)img1 image2:(cv::Mat&)img2;
-
++ (sfm::Matching)matchFeaturesLeft:(const sfm::Features&)featuresLeft  right:(const sfm::Features&)featuresRight;
 @end

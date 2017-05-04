@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		302F19A51EB94BE0009F8BDB /* CameraCalibrationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 302F19A41EB94BE0009F8BDB /* CameraCalibrationModel.m */; };
 		302F19A81EBA44BF009F8BDB /* SpetialPointsMatcher.mm in Sources */ = {isa = PBXBuildFile; fileRef = 302F19A71EBA44BF009F8BDB /* SpetialPointsMatcher.mm */; };
-		302F19B61EBA6335009F8BDB /* SfM2DFeatureUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302F19AC1EBA6335009F8BDB /* SfM2DFeatureUtilities.cpp */; };
 		302F19B71EBA6335009F8BDB /* SfMBundleAdjustmentUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302F19AE1EBA6335009F8BDB /* SfMBundleAdjustmentUtils.cpp */; };
 		302F19B81EBA6335009F8BDB /* SfMCommon.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302F19B01EBA6335009F8BDB /* SfMCommon.cpp */; };
 		302F19B91EBA6335009F8BDB /* SfMStereoUtilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 302F19B21EBA6335009F8BDB /* SfMStereoUtilities.cpp */; };
@@ -36,6 +35,8 @@
 		303AB7591EA627B00089DCEA /* UserDefaultsSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 303AB7581EA627B00089DCEA /* UserDefaultsSerializer.m */; };
 		303AB7601EA670DC0089DCEA /* AccelerometerTracker.m in Sources */ = {isa = PBXBuildFile; fileRef = 303AB75F1EA670DC0089DCEA /* AccelerometerTracker.m */; };
 		303AB7641EA695BA0089DCEA /* AccelerationHeightMeasuring.m in Sources */ = {isa = PBXBuildFile; fileRef = 303AB7631EA695BA0089DCEA /* AccelerationHeightMeasuring.m */; };
+		3093CCC61EBB667F00BF515F /* CircularArray.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3093CCC51EBB667F00BF515F /* CircularArray.mm */; };
+		3093CCCA1EBBC8A500BF515F /* Model3DBuilder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3093CCC91EBBC8A500BF515F /* Model3DBuilder.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,8 +44,6 @@
 		302F19A41EB94BE0009F8BDB /* CameraCalibrationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CameraCalibrationModel.m; sourceTree = "<group>"; };
 		302F19A61EBA44BF009F8BDB /* SpetialPointsMatcher.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SpetialPointsMatcher.h; sourceTree = "<group>"; };
 		302F19A71EBA44BF009F8BDB /* SpetialPointsMatcher.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = SpetialPointsMatcher.mm; sourceTree = "<group>"; };
-		302F19AC1EBA6335009F8BDB /* SfM2DFeatureUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SfM2DFeatureUtilities.cpp; sourceTree = "<group>"; };
-		302F19AD1EBA6335009F8BDB /* SfM2DFeatureUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SfM2DFeatureUtilities.h; sourceTree = "<group>"; };
 		302F19AE1EBA6335009F8BDB /* SfMBundleAdjustmentUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SfMBundleAdjustmentUtils.cpp; sourceTree = "<group>"; };
 		302F19AF1EBA6335009F8BDB /* SfMBundleAdjustmentUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SfMBundleAdjustmentUtils.h; sourceTree = "<group>"; };
 		302F19B01EBA6335009F8BDB /* SfMCommon.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SfMCommon.cpp; sourceTree = "<group>"; };
@@ -88,6 +87,10 @@
 		303AB7621EA695BA0089DCEA /* AccelerationHeightMeasuring.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccelerationHeightMeasuring.h; sourceTree = "<group>"; };
 		303AB7631EA695BA0089DCEA /* AccelerationHeightMeasuring.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccelerationHeightMeasuring.m; sourceTree = "<group>"; };
 		303AB7651EA69C5A0089DCEA /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		3093CCC41EBB667F00BF515F /* CircularArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircularArray.h; sourceTree = "<group>"; };
+		3093CCC51EBB667F00BF515F /* CircularArray.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CircularArray.mm; sourceTree = "<group>"; };
+		3093CCC81EBBC8A500BF515F /* Model3DBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model3DBuilder.h; sourceTree = "<group>"; };
+		3093CCC91EBBC8A500BF515F /* Model3DBuilder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Model3DBuilder.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,14 +131,7 @@
 		302F19A91EBA6318009F8BDB /* SFM */ = {
 			isa = PBXGroup;
 			children = (
-				302F19AC1EBA6335009F8BDB /* SfM2DFeatureUtilities.cpp */,
-				302F19AD1EBA6335009F8BDB /* SfM2DFeatureUtilities.h */,
-				302F19AE1EBA6335009F8BDB /* SfMBundleAdjustmentUtils.cpp */,
-				302F19AF1EBA6335009F8BDB /* SfMBundleAdjustmentUtils.h */,
-				302F19B11EBA6335009F8BDB /* SfMCommon.h */,
-				302F19B01EBA6335009F8BDB /* SfMCommon.cpp */,
-				302F19B21EBA6335009F8BDB /* SfMStereoUtilities.cpp */,
-				302F19B31EBA6335009F8BDB /* SfMStereoUtilities.h */,
+				3093CCC71EBB846F00BF515F /* Utils */,
 				302F19BE1EBA928D009F8BDB /* StructureFromMotion.h */,
 				302F19BF1EBA928D009F8BDB /* StructureFromMotion.mm */,
 			);
@@ -162,6 +158,7 @@
 		303AB7121E9EC9900089DCEA /* ModelingAndMeasure */ = {
 			isa = PBXGroup;
 			children = (
+				3093CCCB1EBBC8B300BF515F /* AutoMeasuring */,
 				302F19A91EBA6318009F8BDB /* SFM */,
 				30B96D3C1EB9411B00F4F7A7 /* Camera */,
 				303AB7611EA691850089DCEA /* ManualMeasuring */,
@@ -228,6 +225,8 @@
 				303AB7581EA627B00089DCEA /* UserDefaultsSerializer.m */,
 				303AB75E1EA670DC0089DCEA /* AccelerometerTracker.h */,
 				303AB75F1EA670DC0089DCEA /* AccelerometerTracker.m */,
+				3093CCC41EBB667F00BF515F /* CircularArray.h */,
+				3093CCC51EBB667F00BF515F /* CircularArray.mm */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -239,6 +238,28 @@
 				303AB7631EA695BA0089DCEA /* AccelerationHeightMeasuring.m */,
 			);
 			name = ManualMeasuring;
+			sourceTree = "<group>";
+		};
+		3093CCC71EBB846F00BF515F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				302F19AF1EBA6335009F8BDB /* SfMBundleAdjustmentUtils.h */,
+				302F19AE1EBA6335009F8BDB /* SfMBundleAdjustmentUtils.cpp */,
+				302F19B01EBA6335009F8BDB /* SfMCommon.cpp */,
+				302F19B11EBA6335009F8BDB /* SfMCommon.h */,
+				302F19B31EBA6335009F8BDB /* SfMStereoUtilities.h */,
+				302F19B21EBA6335009F8BDB /* SfMStereoUtilities.cpp */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
+		3093CCCB1EBBC8B300BF515F /* AutoMeasuring */ = {
+			isa = PBXGroup;
+			children = (
+				3093CCC81EBBC8A500BF515F /* Model3DBuilder.h */,
+				3093CCC91EBBC8A500BF515F /* Model3DBuilder.mm */,
+			);
+			name = AutoMeasuring;
 			sourceTree = "<group>";
 		};
 		30B96D3C1EB9411B00F4F7A7 /* Camera */ = {
@@ -325,10 +346,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				302F19B61EBA6335009F8BDB /* SfM2DFeatureUtilities.cpp in Sources */,
 				302F19A81EBA44BF009F8BDB /* SpetialPointsMatcher.mm in Sources */,
 				303AB71B1E9EC9900089DCEA /* MeasureViewController.mm in Sources */,
 				302F19B71EBA6335009F8BDB /* SfMBundleAdjustmentUtils.cpp in Sources */,
+				3093CCC61EBB667F00BF515F /* CircularArray.mm in Sources */,
 				303AB74A1EA0B8740089DCEA /* VideoProcessor.mm in Sources */,
 				303AB7601EA670DC0089DCEA /* AccelerometerTracker.m in Sources */,
 				303AB7181E9EC9900089DCEA /* AppDelegate.m in Sources */,
@@ -338,6 +359,7 @@
 				302F19A51EB94BE0009F8BDB /* CameraCalibrationModel.m in Sources */,
 				303AB7151E9EC9900089DCEA /* main.m in Sources */,
 				302F19B91EBA6335009F8BDB /* SfMStereoUtilities.cpp in Sources */,
+				3093CCCA1EBBC8A500BF515F /* Model3DBuilder.mm in Sources */,
 				302F19B81EBA6335009F8BDB /* SfMCommon.cpp in Sources */,
 				303AB7551EA12C810089DCEA /* ShowPictureViewController.m in Sources */,
 				303AB7311E9ECB9F0089DCEA /* UIImage+OpenCV.mm in Sources */,

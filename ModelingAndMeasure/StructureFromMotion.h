@@ -8,30 +8,38 @@
 
 #import <Foundation/Foundation.h>
 #include "SfMCommon.h"
-#include "SfM2DFeatureUtilities.h"
 
 #include <string>
 #include <vector>
 #include <map>
 #include <set>
+
 /**
  * This is a matrix of matches from view i to view j
  */
+typedef std::vector<std::vector<sfm::Matching> > MatchMatrix;
+typedef std::map<int, sfm::Image2D3DMatch> Images2D3DMatches;
 
-using namespace sfm;
-using namespace cv;
+@class StructureFromMotion;
 
-typedef std::vector<std::vector<Matching> > MatchMatrix;
+@protocol StructureFromMotionDelegate <NSObject>
 
-typedef std::map<int, Image2D3DMatch> Images2D3DMatches;
+- (void)sfm:(StructureFromMotion *)sfm didFinishModelingWithImage:(cv::Mat&)image;
+- (void)sfmDidFail:(StructureFromMotion *)sfm;
 
-@interface StructureFromMotion : NSObject 
+@end
+
+@interface StructureFromMotion : NSObject
+
+@property (strong, nonatomic) id<StructureFromMotionDelegate> delegate;
+
 - (instancetype)initWithDownscaleFactor:(float)scale;
 
-- (void)setImages:(const std::vector<Mat>)imgs;
-- (PointCloud)getReconstructionCloud;
-- (std::vector<Matx34f>)getCameraPoses;
+- (void)setImages:(const std::vector<cv::Mat>&)imgs;
+- (sfm::PointCloud)getReconstructionCloud;
+- (std::vector<cv::Matx34f>)getCameraPoses;
 
+// async operations inside
 - (void)run;
 
 @end

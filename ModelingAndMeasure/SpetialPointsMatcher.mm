@@ -15,6 +15,8 @@
 using namespace std;
 using namespace cv;
 
+const double NN_MATCH_RATIO = 0.8f; // Nearest-neighbour matching ratio
+
 @implementation SpetialPointsMatcher
 
 + (std::vector<cv::DMatch>)matchKeyPoints1:(std::vector<KeyPoint>)keyPoints1 keyPoints2:(std::vector<KeyPoint>)keyPoints2 image1:(cv::Mat&)img1 image2:(cv::Mat&)img2 {
@@ -48,6 +50,24 @@ using namespace cv;
     // Draw matches
     //drawMatches(imgA, keyPoints1, imgB, keypointsB, matches, img);
     return matches;
+}
+
++ (sfm::Matching)matchFeaturesLeft:(const sfm::Features&)featuresLeft  right:(const sfm::Features&)featuresRight {
+    //initial matching between features
+    vector<sfm::Matching> initialMatching;
+
+    auto matcher = DescriptorMatcher::create("BruteForce-L1");
+    matcher->knnMatch(featuresLeft.descriptors, featuresRight.descriptors, initialMatching, 2);
+
+    //prune the matching using the ratio test
+    sfm::Matching prunedMatching;
+    for(unsigned i = 0; i < initialMatching.size(); i++) {
+        if(initialMatching[i][0].distance < NN_MATCH_RATIO * initialMatching[i][1].distance) {
+            prunedMatching.push_back(initialMatching[i][0]);
+        }
+    }
+    
+    return prunedMatching;
 }
 
 

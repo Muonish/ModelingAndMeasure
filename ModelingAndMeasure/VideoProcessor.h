@@ -12,11 +12,10 @@
 
 @interface VideoProcessor : NSObject <CvVideoCameraDelegate>
 
-@property (nonatomic, strong) CvVideoCamera* videoCamera;
-
 @property (nonatomic, assign) BOOL modelingEnabled;
 
-- (instancetype)initWithCameraView:(UIImageView *)view scale:(CGFloat)scale;
+- (instancetype)initWithCameraView:(UIImageView *)view
+                             scale:(CGFloat)scale;
 
 - (CameraCalibrationModel *)computeCameraCalibration;
 
@@ -24,5 +23,7 @@
 - (void)stopCapture;
 
 - (UIImage *)captureProcessedImage;
+
+- (std::vector<cv::Mat>)getBufferedImages;
 
 @end

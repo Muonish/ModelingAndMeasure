@@ -11,11 +11,15 @@
 #import "ShowPictureViewController.h"
 #import "UserDefaultsSerializer.h"
 #import "AccelerationHeightMeasuring.h"
+#import "Model3DBuilder.h"
 
 static NSString *const kStartMeasureMessage = @"To start measure: Place bottom point in the center of the screen and long tap button.";
 static NSString *const kEndMeasureMessage = @"Place top point in the center of the screen and just tap button. ";
 
-@interface MeasureViewController ()
+static NSString *const kAutoStartMeasureMessage = @"To start measure: Place start point in the center of the screen and long tap button.";
+static NSString *const kAutoModelingMessage = @"Build 3-D...";
+
+@interface MeasureViewController () <Model3DBuilderDelegate>
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *switchModeSegmentedControl;
 @property (weak, nonatomic) IBOutlet UIImageView *cameraImageView;
@@ -25,8 +29,10 @@ static NSString *const kEndMeasureMessage = @"Place top point in the center of t
 @property (weak, nonatomic) IBOutlet UILabel *heightLabel;
 @property (weak, nonatomic) IBOutlet UIButton *takePictureButton;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *modelImageView;
 
 @property (strong, nonatomic) AccelerationHeightMeasuring *accelerationMeasuring;
+@property (strong, nonatomic) Model3DBuilder *modelBuilder;
 
 @end
 
@@ -54,11 +60,13 @@ static NSString *const kEndMeasureMessage = @"Place top point in the center of t
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.videoProcessor = [[VideoProcessor alloc] initWithCameraView:self.cameraImageView
-                                                               scale:2.0];
+    self.videoProcessor = [[VideoProcessor alloc] initWithCameraView:self.cameraImageView scale:2.0];
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longTap:)];
     [self.takePictureButton addGestureRecognizer:longPress];
     self.statusLabel.text = kStartMeasureMessage;
+    self.modelImageView.layer.masksToBounds = YES;
+    self.modelImageView.layer.cornerRadius = 4.f;
+    self.modelImageView.hidden = YES;
     [self initSliderControl];
 }
 
@@ -88,8 +96,9 @@ static NSString *const kEndMeasureMessage = @"Place top point in the center of t
 
 - (IBAction)onSwitchMode:(id)sender {
     BOOL isAutomatic = ![self isManualMode];
-    self.statusLabel.text = isAutomatic ? nil : kStartMeasureMessage;
+    self.statusLabel.text = isAutomatic ? kAutoStartMeasureMessage : kStartMeasureMessage;
     self.videoProcessor.modelingEnabled = isAutomatic;
+    self.modelImageView.hidden = !isAutomatic;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
@@ -111,11 +120,35 @@ static NSString *const kEndMeasureMessage = @"Place top point in the center of t
 }
 
 - (void)longTap:(UIGestureRecognizer*)gestureRecognizer {
-    if([self isManualMode] && !self.accelerationMeasuring) {
-        self.accelerationMeasuring = [[AccelerationHeightMeasuring alloc] initWithHeight:self.sliderControl.value];
-        [self.accelerationMeasuring startMeasure];
-        self.statusLabel.text = kEndMeasureMessage;
+    if (gestureRecognizer.state == UIGestureRecognizerStateBegan) {
+        NSLog(@"long press");
+        if ([self isManualMode]) {
+            if(!self.accelerationMeasuring) {
+                self.accelerationMeasuring = [[AccelerationHeightMeasuring alloc] initWithHeight:self.sliderControl.value];
+                [self.accelerationMeasuring startMeasure];
+                self.statusLabel.text = kEndMeasureMessage;
+            }
+        } else {
+            self.statusLabel.text = kAutoModelingMessage;
+            if (!self.modelBuilder || !self.modelBuilder.isModeling) {
+                [self initModelBuilder];
+            }
+        }
     }
+}
+
+- (void)initModelBuilder {
+    self.modelBuilder = [[Model3DBuilder alloc] initWithImages:[self.videoProcessor getBufferedImages]
+                                                         scale:2.0];
+    self.modelBuilder.delegate = self;
+    [self.modelBuilder runModeling];
+}
+
+#pragma mark <Model3DBuilderDelegate>
+
+- (void)modelBuilder:(Model3DBuilder *)mb didFinishModelingWithModel:(UIImage *)image {
+    self.statusLabel.text = @"Finish";
+    self.modelImageView.image = image;
 }
 
 @end

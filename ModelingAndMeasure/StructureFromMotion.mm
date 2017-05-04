@@ -8,6 +8,7 @@
 
 #import "StructureFromMotion.h"
 #import "SpecialPointsDetector.h"
+#import "SpetialPointsMatcher.h"
 
 #include "SfMBundleAdjustmentUtils.h"
 #include "SfMStereoUtilities.h"
@@ -17,6 +18,8 @@
 #include <mutex>
 
 using namespace std;
+using namespace sfm;
+using namespace cv;
 
 const float MERGE_CLOUD_POINT_MIN_MATCH_DISTANCE   = 0.01;
 const float MERGE_CLOUD_FEATURE_MIN_MATCH_DISTANCE = 20.0;
@@ -29,7 +32,6 @@ const int   MIN_POINT_COUNT_FOR_HOMOGRAPHY         = 100;
 
     std::vector<Features>     imageFeatures;
     MatchMatrix               featureMatchMatrix;
-    SfM2DFeatureUtilities     featureUtil;
     Intrinsics                intrinsics;
     float                     downscaleFactor;
 
@@ -52,7 +54,7 @@ const int   MIN_POINT_COUNT_FOR_HOMOGRAPHY         = 100;
     return self;
 }
 
-- (void)setImages:(const std::vector<Mat>)imgs {
+- (void)setImages:(const std::vector<Mat>&)imgs {
     images = imgs;
 }
 
@@ -66,37 +68,36 @@ const int   MIN_POINT_COUNT_FOR_HOMOGRAPHY         = 100;
 
 - (void)run {
     if (images.size() <= 0) {
+        if ([self.delegate respondsToSelector:@selector(sfmDidFail:)]) {
+            [self.delegate sfmDidFail:self];
+        }
         return;
     }
 
-    //initialize intrinsics
-    intrinsics.K = (Mat_<float>(3,3) << 2500,   0, images[0].cols / 2,
-                     0, 2500, images[0].rows / 2,
-                     0,    0, 1);
-    intrinsics.Kinv = intrinsics.K.inv();
-    intrinsics.distortion = Mat_<float>::zeros(1, 4);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //initialize intrinsics
+        intrinsics.K = (Mat_<float>(3,3) << 2500,   0, images[0].cols / 2,
+                        0, 2500, images[0].rows / 2,
+                        0,    0, 1);
+        intrinsics.Kinv = intrinsics.K.inv();
+        intrinsics.distortion = Mat_<float>::zeros(1, 4);
 
-    cameraPoses.resize(images.size());
+        cameraPoses.resize(images.size());
 
-    //First - extract features from all images
-    [self extractFeatures];
+        //First - extract features from all images
+        [self extractFeatures];
 
-    //Create a matching matrix between all images' features
-    [self createFeatureMatchMatrixWithCompletion:^{
+        //Create a matching matrix between all images' features
+        [self createFeatureMatchMatrix];
 
-//        //Find the best two views for an initial triangulation on the 3D map
-//        [self findBaselineTriangulation];
-//
-//        //Lastly - add more camera views to the map
-//        // addMoreViewsToReconstruction();
+        //Find the best two views for an initial triangulation on the 3D map
+        [self findBaselineTriangulation];
 
-    }];
-
-    //Find the best two views for an initial triangulation on the 3D map
-    [self findBaselineTriangulation];
-
-    //Lastly - add more camera views to the map
-    // addMoreViewsToReconstruction();
+        [self drawCloud];
+        
+        //Lastly - add more camera views to the map
+        // addMoreViewsToReconstruction();
+    });
 }
 
 - (void)extractFeatures {
@@ -106,7 +107,7 @@ const int   MIN_POINT_COUNT_FOR_HOMOGRAPHY         = 100;
     }
 }
 
-- (void)createFeatureMatchMatrixWithCompletion:(void (^)(void))completion {
+- (void)createFeatureMatchMatrix {
 
     const size_t nuimages = images.size();
     featureMatchMatrix.resize(nuimages, vector<Matching>(nuimages));
@@ -115,32 +116,30 @@ const int   MIN_POINT_COUNT_FOR_HOMOGRAPHY         = 100;
     vector<ImagePair> pairs;
     for (size_t i = 0; i < nuimages; i++) {
         for (size_t j = i + 1; j < nuimages; j++) {
-            //pairs.push_back()
             pairs.push_back({ i, j });
         }
     }
 
     vector<thread> threads;
 
-    //find out how many threads are supported, and how many pairs each thread will work on
-    const int numThreads = std::thread::hardware_concurrency() - 1;
+    const int numThreads = 4;
+    //how many pairs each thread will work on
     const int numPairsForThread = (numThreads > pairs.size()) ? 1 : (int)ceilf((float)(pairs.size()) / numThreads);
-
-    mutex writeMutex;
 
     //invoke each thread with its pairs to process (if less pairs than threads, invoke only #pairs threads with 1 pair each)
     for (size_t threadId = 0; threadId < MIN(numThreads, pairs.size()); threadId++) {
         threads.push_back(thread([&, threadId] {
-            const int startingPair = numPairsForThread * threadId;
+            const long startingPair = numPairsForThread * threadId;
 
             for (int j = 0; j < numPairsForThread; j++) {
-                const int pairId = startingPair + j;
+                const long pairId = startingPair + j;
                 if (pairId >= pairs.size()) { //make sure threads don't overflow the pairs
                     break;
                 }
                 const ImagePair& pair = pairs[pairId];
 
-                featureMatchMatrix[pair.left][pair.right] = SfM2DFeatureUtilities::matchFeatures(imageFeatures[pair.left], imageFeatures[pair.right]);
+                featureMatchMatrix[pair.left][pair.right] = [SpetialPointsMatcher matchFeaturesLeft:imageFeatures[pair.left]
+                                                                                              right:imageFeatures[pair.right]];
             }
         }));
     }
@@ -149,36 +148,6 @@ const int   MIN_POINT_COUNT_FOR_HOMOGRAPHY         = 100;
     for (auto& t : threads) {
         t.join();
     }
-
-//    const size_t nuimages = images.size();
-//    featureMatchMatrix.resize(nuimages, vector<Matching>(nuimages));
-//
-//    //prepare image pairs to match concurrently
-//    vector<ImagePair> pairs;
-//    for (size_t i = 0; i < nuimages; i++) {
-//        for (size_t j = i + 1; j < nuimages; j++) {
-//            pairs.push_back({ i, j });
-//        }
-//    }
-//
-//    dispatch_group_t group = dispatch_group_create();
-//    long size = pairs.size();
-//    for (int j = 0; j < size; j++) {
-//        dispatch_group_enter(group);
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//            const ImagePair& pair = pairs[j];
-//            featureMatchMatrix[pair.left][pair.right] = SfM2DFeatureUtilities::matchFeatures(imageFeatures[pair.left], imageFeatures[pair.right]);
-//            dispatch_group_leave(group);
-//        });
-//
-//    }
-//
-//    //wait until all tasks complete
-//    dispatch_group_notify(group, dispatch_get_main_queue(), ^{
-//        if (completion) {
-//            completion();
-//        }
-//    });
 
 }
 
@@ -288,6 +257,25 @@ const int   MIN_POINT_COUNT_FOR_HOMOGRAPHY         = 100;
     }
     
     return matchesSizes;
+}
+
+- (void)drawCloud {
+    if ([self.delegate respondsToSelector:@selector(sfm:didFinishModelingWithImage:)]) {
+        Mat templateImg = images[0];
+        Mat result;
+        Vec3b pointColor(100,0,0);
+        result.create(templateImg.rows,templateImg.cols, CV_8UC4);
+        for (const Point3DInMap& p : reconstructionCloud) {
+            //get color from first originating view
+            auto originatingView = p.originatingViews.begin();
+            const int viewIdx = originatingView->first;
+            Point2f p2d = imageFeatures[viewIdx].points[originatingView->second];
+            result.at<Vec3b>(p2d.x, p2d.y) = pointColor;
+
+        }
+
+        [self.delegate sfm:self didFinishModelingWithImage:result];
+    }
 }
 
 @end

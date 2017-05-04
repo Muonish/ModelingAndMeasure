@@ -48,8 +48,14 @@ using namespace cv;
     return kpts;
 }
 
-- (sfm::Features)extractFeatures:(const cv::Mat &)img {
+- (sfm::Features)extractFeatures:(const Mat&)img {
     sfm::Features features;
+    Mat gray, smallImg( cvRound (img.rows/_scale), cvRound(img.cols/_scale), CV_8UC1);
+
+    cvtColor(img, gray, COLOR_BGR2GRAY);
+    resize(gray, smallImg, smallImg.size(), 0, 0, INTER_LINEAR);
+    equalizeHist(smallImg, smallImg);
+
     orb_detector->detectAndCompute(img, noArray(), features.keyPoints, features.descriptors);
     sfm::KeyPointsToPoints(features.keyPoints, features.points);
     return features;

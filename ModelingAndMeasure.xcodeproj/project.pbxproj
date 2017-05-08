@@ -37,6 +37,8 @@
 		303AB7641EA695BA0089DCEA /* AccelerationHeightMeasuring.m in Sources */ = {isa = PBXBuildFile; fileRef = 303AB7631EA695BA0089DCEA /* AccelerationHeightMeasuring.m */; };
 		3093CCC61EBB667F00BF515F /* CircularArray.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3093CCC51EBB667F00BF515F /* CircularArray.mm */; };
 		3093CCCA1EBBC8A500BF515F /* Model3DBuilder.mm in Sources */ = {isa = PBXBuildFile; fileRef = 3093CCC91EBBC8A500BF515F /* Model3DBuilder.mm */; };
+		3093CCCE1EBD4A8400BF515F /* UserSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 3093CCCD1EBD4A8400BF515F /* UserSettings.m */; };
+		3093CCD11EBDE3BD00BF515F /* Units.m in Sources */ = {isa = PBXBuildFile; fileRef = 3093CCD01EBDE3BD00BF515F /* Units.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -91,6 +93,10 @@
 		3093CCC51EBB667F00BF515F /* CircularArray.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CircularArray.mm; sourceTree = "<group>"; };
 		3093CCC81EBBC8A500BF515F /* Model3DBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Model3DBuilder.h; sourceTree = "<group>"; };
 		3093CCC91EBBC8A500BF515F /* Model3DBuilder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Model3DBuilder.mm; sourceTree = "<group>"; };
+		3093CCCC1EBD4A8400BF515F /* UserSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserSettings.h; sourceTree = "<group>"; };
+		3093CCCD1EBD4A8400BF515F /* UserSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserSettings.m; sourceTree = "<group>"; };
+		3093CCCF1EBDE3BD00BF515F /* Units.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Units.h; sourceTree = "<group>"; };
+		3093CCD01EBDE3BD00BF515F /* Units.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Units.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,7 +137,7 @@
 		302F19A91EBA6318009F8BDB /* SFM */ = {
 			isa = PBXGroup;
 			children = (
-				3093CCC71EBB846F00BF515F /* Utils */,
+				3093CCC71EBB846F00BF515F /* SFMUtils */,
 				302F19BE1EBA928D009F8BDB /* StructureFromMotion.h */,
 				302F19BF1EBA928D009F8BDB /* StructureFromMotion.mm */,
 			);
@@ -221,6 +227,10 @@
 		303AB7561EA627920089DCEA /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				3093CCCF1EBDE3BD00BF515F /* Units.h */,
+				3093CCD01EBDE3BD00BF515F /* Units.m */,
+				3093CCCC1EBD4A8400BF515F /* UserSettings.h */,
+				3093CCCD1EBD4A8400BF515F /* UserSettings.m */,
 				303AB7571EA627B00089DCEA /* UserDefaultsSerializer.h */,
 				303AB7581EA627B00089DCEA /* UserDefaultsSerializer.m */,
 				303AB75E1EA670DC0089DCEA /* AccelerometerTracker.h */,
@@ -240,17 +250,17 @@
 			name = ManualMeasuring;
 			sourceTree = "<group>";
 		};
-		3093CCC71EBB846F00BF515F /* Utils */ = {
+		3093CCC71EBB846F00BF515F /* SFMUtils */ = {
 			isa = PBXGroup;
 			children = (
 				302F19AF1EBA6335009F8BDB /* SfMBundleAdjustmentUtils.h */,
 				302F19AE1EBA6335009F8BDB /* SfMBundleAdjustmentUtils.cpp */,
-				302F19B01EBA6335009F8BDB /* SfMCommon.cpp */,
 				302F19B11EBA6335009F8BDB /* SfMCommon.h */,
+				302F19B01EBA6335009F8BDB /* SfMCommon.cpp */,
 				302F19B31EBA6335009F8BDB /* SfMStereoUtilities.h */,
 				302F19B21EBA6335009F8BDB /* SfMStereoUtilities.cpp */,
 			);
-			name = Utils;
+			name = SFMUtils;
 			sourceTree = "<group>";
 		};
 		3093CCCB1EBBC8B300BF515F /* AutoMeasuring */ = {
@@ -347,12 +357,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				302F19A81EBA44BF009F8BDB /* SpetialPointsMatcher.mm in Sources */,
+				3093CCD11EBDE3BD00BF515F /* Units.m in Sources */,
 				303AB71B1E9EC9900089DCEA /* MeasureViewController.mm in Sources */,
 				302F19B71EBA6335009F8BDB /* SfMBundleAdjustmentUtils.cpp in Sources */,
 				3093CCC61EBB667F00BF515F /* CircularArray.mm in Sources */,
 				303AB74A1EA0B8740089DCEA /* VideoProcessor.mm in Sources */,
 				303AB7601EA670DC0089DCEA /* AccelerometerTracker.m in Sources */,
 				303AB7181E9EC9900089DCEA /* AppDelegate.m in Sources */,
+				3093CCCE1EBD4A8400BF515F /* UserSettings.m in Sources */,
 				303AB72D1E9ECADC0089DCEA /* SpecialPointsDetector.mm in Sources */,
 				303AB7641EA695BA0089DCEA /* AccelerationHeightMeasuring.m in Sources */,
 				303AB7591EA627B00089DCEA /* UserDefaultsSerializer.m in Sources */,

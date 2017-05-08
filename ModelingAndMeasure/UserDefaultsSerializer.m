@@ -10,13 +10,21 @@
 
 @implementation UserDefaultsSerializer
 
-+ (void)saveObject:(id)object forKey:(NSString *)key {
-    [[NSUserDefaults standardUserDefaults] setObject:object forKey:key];
-    [[NSUserDefaults standardUserDefaults] synchronize];
++ (id)loadObjectWithClass:(Class)aClass {
+    NSDictionary * dict = [[NSUserDefaults standardUserDefaults] objectForKey:NSStringFromClass(aClass)];
+
+    if ([aClass conformsToProtocol:@protocol(SerializableProtocol)]) {
+        return [aClass objectFromDictionary:dict];
+    }
+
+    return nil;
 }
 
-+ (id)getObjectForKey:(NSString *)key {
-    return [[NSUserDefaults standardUserDefaults] stringForKey:key];
++ (void)saveObject:(id<SerializableProtocol>)aObject {
+    NSDictionary * dict = [aObject toDictionary];
+    [[NSUserDefaults standardUserDefaults] setObject:dict
+                                              forKey:NSStringFromClass([aObject class])];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end

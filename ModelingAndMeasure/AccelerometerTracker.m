@@ -10,7 +10,6 @@
 
 @interface AccelerometerTracker()
 
-@property (strong, nonatomic) NSTimer *timer;
 @property (strong, nonatomic) CMMotionManager *motionManager;
 
 @end
@@ -36,7 +35,6 @@
                                                          self.onFirstTrackCycle = nil;
                                                      }
                                                      if(error){
-
                                                          NSLog(@"%@", error);
                                                      }
                                                  }];

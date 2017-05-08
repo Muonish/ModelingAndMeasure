@@ -8,12 +8,17 @@
 
 #import <Foundation/Foundation.h>
 
-static NSString *const kHeightKey = @"heightValue";
-static NSString *const kCalibrationKey = @"cameraCalibration";
+@protocol SerializableProtocol <NSObject>
+
+@required
++ (id)objectFromDictionary:(NSDictionary *)dictionary;
+- (NSDictionary *)toDictionary;
+
+@end
 
 @interface UserDefaultsSerializer : NSObject
 
-+ (void)saveObject:(id)object forKey:(NSString *)key;
-+ (id)getObjectForKey:(NSString *)key;
++ (id)loadObjectWithClass:(Class)aClass;
++ (void)saveObject:(id<SerializableProtocol>)aObject;
 
 @end

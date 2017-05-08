@@ -12,6 +12,7 @@
 #import "UserDefaultsSerializer.h"
 #import "AccelerationHeightMeasuring.h"
 #import "Model3DBuilder.h"
+#import "UserSettings.h"
 
 static NSString *const kStartMeasureMessage = @"To start measure: Place bottom point in the center of the screen and long tap button.";
 static NSString *const kEndMeasureMessage = @"Place top point in the center of the screen and just tap button. ";
@@ -28,6 +29,7 @@ static NSString *const kAutoModelingMessage = @"Build 3-D...";
 @property (strong, nonatomic) UISlider *sliderControl;
 @property (weak, nonatomic) IBOutlet UILabel *heightLabel;
 @property (weak, nonatomic) IBOutlet UIButton *takePictureButton;
+@property (weak, nonatomic) IBOutlet UIButton *unitsButton;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *modelImageView;
 
@@ -45,17 +47,54 @@ static NSString *const kAutoModelingMessage = @"Build 3-D...";
 - (void)initSliderControl {
     self.sliderControl = [UISlider new];
     self.sliderControl.tintColor = [UIColor whiteColor];
-    self.sliderControl.maximumValue = 200;
+    self.sliderControl.maximumValue = 200; // cm
     self.sliderControl.minimumValue = 10;
-    self.sliderControl.value = [[UserDefaultsSerializer getObjectForKey:kHeightKey] floatValue];
-    self.heightLabel.text = [NSString stringWithFormat:@"%d", (int)self.sliderControl.value];
+    self.sliderControl.value = [[UserSettings instance].height floatValue];
+    [self.unitsButton setTitle:[UserSettings instance].units.name forState:UIControlStateNormal];
+    [self updateHeightWithValue:self.sliderControl.value];
     [self.heightCostomizationContainer addSubview:self.sliderControl];
     [self.sliderControl addTarget:self action:@selector(sliderValueChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.sliderControl addTarget:self action:@selector(sliderDidEndSliding:) forControlEvents:(UIControlEventTouchUpInside | UIControlEventTouchUpOutside)];
 }
 
 - (IBAction)sliderValueChanged:(UISlider *)sender {
-    [UserDefaultsSerializer saveObject:@(self.sliderControl.value) forKey:kHeightKey];
-    self.heightLabel.text = [NSString stringWithFormat:@"%d", (int)self.sliderControl.value];
+    [self updateHeightWithValue:self.sliderControl.value];
+}
+
+- (IBAction)sliderDidEndSliding:(UISlider *)sender {
+    UserSettings *settings = [UserSettings instance];
+    settings.height = @(self.sliderControl.value);
+    [settings save];
+    [self updateHeightWithValue:[settings.height floatValue]];
+}
+
+- (void)updateHeightWithValue:(CGFloat)value {
+    UserSettings *settings = [UserSettings instance];
+    value = value * settings.units.multiplier;
+    NSString *text;
+    switch (settings.units.type) {
+        case cmUnits:
+            text = [NSString stringWithFormat:@"%3.1f", value];
+            break;
+        case mUnits:
+            text = [NSString stringWithFormat:@"%3.3f", value];
+            break;
+        case mmUnits:
+            text = [NSString stringWithFormat:@"%3.0f", value];
+            break;
+        default:
+            break;
+    }
+
+    self.heightLabel.text = text;
+}
+
+- (IBAction)onUnitsChange:(id)sender {
+    UserSettings *settings = [UserSettings instance];
+    settings.units.type = [settings.units nextType];
+    [settings save];
+    [self.unitsButton setTitle:settings.units.name forState:UIControlStateNormal];
+    [self updateHeightWithValue:[settings.height floatValue]];
 }
 
 - (void)viewDidLoad {
